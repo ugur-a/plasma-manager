@@ -196,8 +196,16 @@ in
             // Wallpaper to set later: ${cfg.workspace.wallpaper}
           '' else "");
           wallpaperPostCMD = (if (cfg.workspace.wallpaper != null) then ''
-            plasma-apply-wallpaperimage ${cfg.workspace.wallpaper}
-          '' else "");
+            // Wallpaper image
+            let allDesktops = desktops();
+            for (const desktop of allDesktops) {
+                var desktop = allDesktops[desktopIndex];
+                desktop.wallpaperPlugin = "org.kde.image";
+                desktop.currentConfigGroup = Array("Wallpaper", "org.kde.image", "General");
+                desktop.writeConfig("Imange", ${cfg.workspace.wallpaper}");
+            }
+          '' 
+          else "");
           wallpaperSlideShow = (if (cfg.workspace.wallpaperSlideShow != null) then ''
             // Wallpaper slideshow
             let allDesktops = desktops();
